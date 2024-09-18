@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<launch>
+    <group ns="robotA">
+        <node pkg="ypspur_ros" type="ypspur_ros" name="ypspur_ros" respawn="true">
+        <param name="param_file"
+            value="/home/yamaguchi-a/researches/programs/platform/yp-robot-params/robot-params/beego.param" />
+        <param name="port" value="/dev/serial/by-id/usb-T-frog_project_T-frog_Driver-if00" />
+        <param name="cmd_vel_expire" value="5.0" />
+        </node>
+
+        <node name="hokuyo" pkg="hokuyo_node" type="hokuyo_node" respawn="false" output="screen">
+            <!-- Starts up faster, but timestamps will be inaccurate. --> 
+            <param name="calibrate_time" type="bool" value="false"/> 
+            <!-- Set the port to connect to here -->
+            <param name="serial_port" type="string" value="/dev/serial/by-id/usb-T-frog_project_T-frog_Driver-if00"/> 
+            <param name="intensity" type="bool" value="true"/>
+        </node>
+
+        <node pkg="rviz" type="rviz" name="rviz" args="-d $(find waypoints_visualizer)/config/rviz/waypoints_visualizer.rviz" />
+
+
+
+        <node name="waypoints_visualizer" pkg="waypoints_visualizer" type="waypoints_visualizer" output="screen">
+        </node>
+        
+    </group>
+</launch>
